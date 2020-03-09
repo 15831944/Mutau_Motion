@@ -1,38 +1,37 @@
 #pragma once
 #include "Trajectory.h"
 #include "CNC.h"
-#include <list>
 
 class MultiAxisTrajectory
 {
-public:
-	MultiAxisTrajectory();
-	MultiAxisTrajectory(CNC machine, Trajectory x, Trajectory y, Trajectory z);
-	std::list<TrajectoryPoint> CalculateByTime(double time);
-	std::list<TrajectoryPoint> CalculateByProgress(double percent);
-	double GetTotalTime();
-	void Run();
-	CNC Machine;
+    Trajectory LongestTrajectory;
+    std::list<Trajectory> TrajectoryList;
+    double T;
 
-private:
-	Trajectory LongestTrajectory;
-	std::list<Trajectory> TrajectoryList;
-	double T;
+public:
+    MultiAxisTrajectory();
+    MultiAxisTrajectory(CNC machine, Trajectory x, Trajectory y, Trajectory z);
+    std::list<TrajectoryPoint> CalculateByTime(double time);
+    std::list<TrajectoryPoint> CalculateByProgress(double percent);
+    double GetTotalTime();
+    void Run();
+    CNC Machine;
 };
 
 MultiAxisTrajectory::MultiAxisTrajectory()
 {
+	
 }
 
-MultiAxisTrajectory::MultiAxisTrajectory(CNC machine, Trajectory X, Trajectory Y, Trajectory Z)
+MultiAxisTrajectory::MultiAxisTrajectory(CNC machine, Trajectory x, Trajectory y, Trajectory z)
 {
-	TrajectoryList.push_back(X);
-	TrajectoryList.push_back(Y);
-	TrajectoryList.push_back(Z);
+	TrajectoryList.push_back(x);
+	TrajectoryList.push_back(y);
+	TrajectoryList.push_back(z);
 
 	Machine = machine;
 
-	LongestTrajectory = X;
+	LongestTrajectory = x;
 	T = LongestTrajectory.GetTotalTime();
 
 	for (std::list<Trajectory>::iterator it = TrajectoryList.begin(); it != TrajectoryList.end(); ++it)
@@ -94,3 +93,4 @@ void MultiAxisTrajectory::Run()
 
 	Machine.Time = Machine.Time + GetTotalTime();
 }
+

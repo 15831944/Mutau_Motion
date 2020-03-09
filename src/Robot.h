@@ -1,4 +1,5 @@
-#define inf std::numeric_limits<float>::infinity()
+#include <limits>
+double const inf = std::numeric_limits<float>::max();
 
 class Robot
 {
@@ -16,12 +17,12 @@ public:
 	};
 
 	RobotTypes RobotType;
-	float JointMaxLimit[6] = { +inf, +inf, +inf, +inf, +inf, +inf }; // Unit: Deg
-	float JointMinLimit[6] = { -inf, -inf, -inf, -inf, -inf, -inf }; // Unit: Deg
-	float JointHome[6] = { 0,0,0,0,0,0 }; // Unit: Deg
-	float JointMaxSpeed[6] = { 100,100,100,100,100,100 }; // Unit: Deg/s
-	float JointMaxAcceleration[6] = { 500,500,500,500,500,500 }; // Unit: Deg/s^2
-	float JointMaxJerk[6] = { 1000,1000,1000,1000,1000,1000 }; // Unit: Deg/s^3
+	float JointMaxLimit[6] = {+inf};								// Unit: Deg
+	float JointMinLimit[6] = {-inf};								// Unit: Deg
+	float JointHome[6] = {0, 0, 0, 0, 0, 0};						// Unit: Deg
+	float JointMaxSpeed[6] = {100, 100, 100, 100, 100, 100};		// Unit: Deg/s
+	float JointMaxAcceleration[6] = {500, 500, 500, 500, 500, 500}; // Unit: Deg/s^2
+	float JointMaxJerk[6] = {1000, 1000, 1000, 1000, 1000, 1000};   // Unit: Deg/s^3
 
 	Robot(RobotTypes);
 };

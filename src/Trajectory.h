@@ -1,5 +1,7 @@
 #pragma once
+#include <math.h>
 #include "TrajectoryPoint.h"
+
 class Trajectory
 {
 public:
@@ -8,7 +10,7 @@ public:
 	TrajectoryPoint CalculateByTime(double time);
 	TrajectoryPoint CalculateByProgress(double percent);
 	double ConvertTimetoProgress(double time);
-	double GetTotalTime(); 
+	double GetTotalTime();
 
 private:
 	double X0;
@@ -140,9 +142,7 @@ Trajectory::Trajectory(double x0, double x1, double v0, double v1, double v_max,
 		Tj2 = Tj1;
 
 		const auto s_del = sqrt(
-			(tmp_a_max * tmp_a_max * tmp_a_max * tmp_a_max / (j_max * j_max)) + 2 * (v0 * v0 + v1 * v1) + tmp_a_max * (4
-				* (x1 - x0) - 2 * (
-					tmp_a_max / j_max) * (v0 + v1)));
+			(tmp_a_max * tmp_a_max * tmp_a_max * tmp_a_max / (j_max * j_max)) + 2 * (v0 * v0 + v1 * v1) + tmp_a_max * (4 * (x1 - x0) - 2 * (tmp_a_max / j_max) * (v0 + v1)));
 
 		Ta = ((tmp_a_max * tmp_a_max / j_max) - 2 * v0 + s_del) / (2 * tmp_a_max);
 		Td = ((tmp_a_max * tmp_a_max / j_max) - 2 * v1 + s_del) / (2 * tmp_a_max);
@@ -158,14 +158,16 @@ Trajectory::Trajectory(double x0, double x1, double v0, double v1, double v_max,
 				Tj1 = 0;
 				Ta = 0;
 				Tj2 = (j_max * (x1 - x0) - sqrt(
-					j_max * (j_max * (x1 - x0) * (x1 - x0) + (v1 + v0) * (v1 + v0) * (v1 - v0)))) / (j_max * (v1 + v0));
+											   j_max * (j_max * (x1 - x0) * (x1 - x0) + (v1 + v0) * (v1 + v0) * (v1 - v0)))) /
+					  (j_max * (v1 + v0));
 				Td = 2 * (x1 - x0) / (v1 + v0);
 			}
 
 			if (Td < 0)
 			{
 				Tj1 = (j_max * (x1 - x0) - sqrt(
-					j_max * (j_max * (x1 - x0) * (x1 - x0) - (v1 + v0) * (v1 + v0) * (v1 - v0)))) / (j_max * (v1 + v0));
+											   j_max * (j_max * (x1 - x0) * (x1 - x0) - (v1 + v0) * (v1 + v0) * (v1 - v0)))) /
+					  (j_max * (v1 + v0));
 				Ta = 2 * (x1 - x0) / (v1 + v0);
 				Tj2 = 0;
 				Td = 0;
@@ -220,7 +222,7 @@ Trajectory::Trajectory(double x0, double x1, double v0, double v1, double v_max,
 
 	T = Ta + Tv + Td;
 
-	return ;
+	return;
 }
 
 TrajectoryPoint Trajectory::CalculateByTime(double time)
@@ -240,12 +242,11 @@ TrajectoryPoint Trajectory::CalculateByTime(double time)
 		V1 = -V1;
 	}
 
-	
 	if (time < 0)
 	{
-		throw"Invalid input. Time less than 0.";
+		throw "Invalid input. Time less than 0.";
 	}
-	
+
 	if (time < Tj1)
 	{
 		p = X0 + V0 * time + Jmax * time * time * time / 6;
@@ -297,7 +298,7 @@ TrajectoryPoint Trajectory::CalculateByTime(double time)
 	}
 	else
 	{
-		throw"Invalid input. Time more than T";
+		throw "Invalid input. Time more than T";
 	}
 
 	if (delta)
@@ -313,22 +314,22 @@ TrajectoryPoint Trajectory::CalculateByTime(double time)
 		j = -j;
 	}
 
-	return { p, v, a, j, 0 };
+	return {p, v, a, j, 0};
 }
 
 TrajectoryPoint Trajectory::CalculateByProgress(double percent)
 {
 	if (percent < 0)
 	{
-		return { X0, 0, 0, 0, -1 };
+		return {X0, 0, 0, 0, -1};
 	}
 	else if (percent > 1)
 	{
-		return { X0, 0, 0, 0, +1 };
+		return {X0, 0, 0, 0, +1};
 	}
 	else
 	{
-		return { X0 + percent * (X1 - X0), 0, 0, 0, 0 };
+		return {X0 + percent * (X1 - X0), 0, 0, 0, 0};
 	}
 }
 
