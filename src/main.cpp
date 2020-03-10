@@ -7,15 +7,16 @@
 #include <iostream>
 #include <stdio.h>
 
-int main()
+int main(int argc, char *args[])
 {
-    Axis A1(-1000,1000,0,1);
+    Axis A1(-1000, 1000, 0, 1);
     Axis A2 = A1;
     Axis A3 = A1;
 
-    CNC myCNC(A1,A2,A3);
+    CNC myCNC(A1, A2, A3);
 
-    
-
+    GCode aa("G01 X10 Y20");
+    std::cout << "Hello";
+    std::cout << "Hello";
     return 0;
 }

@@ -4,12 +4,11 @@
 #include <iomanip>
 #include <string>
 #include <list>
-#include "GCode.h"
 
 class GCodeProgram
 {
     int NumberOfLines = 0;
-    GCode TextLines[];
+    // GCode TextLines[10000];
 public:
     GCodeProgram();
     int getNumberOfLines();
@@ -24,9 +23,11 @@ GCodeProgram::GCodeProgram()
 
     while (std::getline(inFile, line))
     {
-        TextLines[NumberOfLines] = GCode(line);
+        // TextLines[NumberOfLines] = GCode(line);
         NumberOfLines++;
     }
+
+    inFile.close();
 }
 
 int GCodeProgram::getNumberOfLines()
@@ -36,5 +37,5 @@ int GCodeProgram::getNumberOfLines()
 
 std::string GCodeProgram::getLine(int LineNumber)
 {
-    return TextLines[LineNumber].getText;
+    // return TextLines[LineNumber].getText();
 }

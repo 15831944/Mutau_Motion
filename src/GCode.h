@@ -12,14 +12,14 @@ class GCode
 		T,
 		M
 	};
-	int TypeNumber;
 	std::string Text = "";
-	GCodeType Type;
-	std::map<const char, const float> Tokens;
 
 public:
 	GCode(std::string text);
 	std::string getText();
+	GCodeType Type;
+	int TypeNumber;
+	std::map<const char, const float> Tokens;
 };
 
 GCode::GCode(std::string text)
@@ -27,13 +27,17 @@ GCode::GCode(std::string text)
 	transform(text.begin(), text.end(), text.begin(), ::toupper);
 	Text = text;
 
-	std::istringstream ss(Text);
+	std::stringstream ss;
+	ss.str(Text);
 	char Key;
 	std::string Value;
 	bool first = true;
+	std::string word;
+
+	ss >> word;
+	
 	do
 	{
-		std::string word;
 		Key = word[0];
 		Value = word.erase(0, 1);
 
@@ -42,6 +46,7 @@ GCode::GCode(std::string text)
 		if (first)
 		{
 			first = false;
+			TypeNumber = std::stoi(Value);
 			switch (Key)
 			{
 			case 'G':
@@ -59,7 +64,7 @@ GCode::GCode(std::string text)
 			}
 		}
 
-	} while (ss);
+	} while (ss >> word);
 }
 
 std::string GCode::getText()
