@@ -4,30 +4,29 @@
 #include <iomanip>
 #include <string>
 #include <list>
+#include "GCode.h"
+#include "CNC.h"
 
 class GCodeProgram
 {
     int NumberOfLines = 0;
-    // GCode TextLines[10000];
+    GCode GCodeLines[10000];
+
 public:
-    GCodeProgram();
+    GCodeProgram(std::string inFile);
     int getNumberOfLines();
     std::string getLine(int LineNumber);
 };
 
-GCodeProgram::GCodeProgram()
+GCodeProgram::GCodeProgram(std::string inFile)
 {
-    std::ifstream inFile;
+    std::stringstream ss(inFile);
     std::string line;
-    inFile.open("test.txt");
-
-    while (std::getline(inFile, line))
+    while (std::getline(ss, line, '\n'))
     {
-        // TextLines[NumberOfLines] = GCode(line);
+        GCodeLines[NumberOfLines] = GCode(line);
         NumberOfLines++;
     }
-
-    inFile.close();
 }
 
 int GCodeProgram::getNumberOfLines()
@@ -37,5 +36,5 @@ int GCodeProgram::getNumberOfLines()
 
 std::string GCodeProgram::getLine(int LineNumber)
 {
-    // return TextLines[LineNumber].getText();
+    return GCodeLines[LineNumber].getText();
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include "Axis.h"
 #include "TrajectoryPoint.h"
+#include "GCodeProgram.h"
+#include "GCode.h"
 #include <list>
 #include <string>
 
@@ -14,6 +16,7 @@ public:
 	CNC(Axis A1, Axis A2, Axis A3, Axis A4);
 	CNC(Axis A1, Axis A2, Axis A3, Axis A4, Axis A5);
 	CNC(Axis A1, Axis A2, Axis A3, Axis A4, Axis A5, Axis A6);
+	void Execute(GCodeProgram myGCode);
 	void GoToTrajectoryPointList(std::list<TrajectoryPoint> Target);
 
 	int NumberOfAxes();
@@ -60,6 +63,41 @@ CNC::CNC(Axis A1, Axis A2, Axis A3)
 	numberofaxes = 3;
 }
 
+CNC::CNC(Axis A1, Axis A2, Axis A3, Axis A4)
+{
+	CNCAxes.push_back(A1);
+	CNCAxes.push_back(A2);
+	CNCAxes.push_back(A3);
+	CNCAxes.push_back(A4);
+	numberofaxes = 4;
+}
+
+CNC::CNC(Axis A1, Axis A2, Axis A3, Axis A4, Axis A5)
+{
+	CNCAxes.push_back(A1);
+	CNCAxes.push_back(A2);
+	CNCAxes.push_back(A3);
+	CNCAxes.push_back(A4);
+	CNCAxes.push_back(A5);
+	numberofaxes = 5;
+}
+
+CNC::CNC(Axis A1, Axis A2, Axis A3, Axis A4, Axis A5, Axis A6)
+{
+	CNCAxes.push_back(A1);
+	CNCAxes.push_back(A2);
+	CNCAxes.push_back(A3);
+	CNCAxes.push_back(A4);
+	CNCAxes.push_back(A5);
+	CNCAxes.push_back(A6);
+	numberofaxes = 6;
+}
+
+int CNC::NumberOfAxes()
+{
+	return numberofaxes;
+}
+
 void CNC::GoToTrajectoryPointList(std::list<TrajectoryPoint> Target)
 {
 	std::list<TrajectoryPoint>::iterator it = Target.begin();
@@ -93,38 +131,3 @@ void CNC::GoToTrajectoryPointList(std::list<TrajectoryPoint> Target)
 	}
 }
 
-
-int CNC::NumberOfAxes()
-{
-	return numberofaxes;
-}
-
-CNC::CNC(Axis A1, Axis A2, Axis A3, Axis A4)
-{
-	CNCAxes.push_back(A1);
-	CNCAxes.push_back(A2);
-	CNCAxes.push_back(A3);
-	CNCAxes.push_back(A4);
-	numberofaxes = 4;
-}
-
-CNC::CNC(Axis A1, Axis A2, Axis A3, Axis A4, Axis A5)
-{
-	CNCAxes.push_back(A1);
-	CNCAxes.push_back(A2);
-	CNCAxes.push_back(A3);
-	CNCAxes.push_back(A4);
-	CNCAxes.push_back(A5);
-	numberofaxes = 5;
-}
-
-CNC::CNC(Axis A1, Axis A2, Axis A3, Axis A4, Axis A5, Axis A6)
-{
-	CNCAxes.push_back(A1);
-	CNCAxes.push_back(A2);
-	CNCAxes.push_back(A3);
-	CNCAxes.push_back(A4);
-	CNCAxes.push_back(A5);
-	CNCAxes.push_back(A6);
-	numberofaxes = 6;
-}

@@ -13,14 +13,23 @@ class GCode
 		M
 	};
 	std::string Text = "";
-
-public:
-	GCode(std::string text);
-	std::string getText();
 	GCodeType Type;
 	int TypeNumber;
 	std::map<const char, const float> Tokens;
+
+public:
+	GCode();
+	GCode(std::string text);
+	std::string getText();
+	GCodeType getGCodeType();
+	int getTypeNumber();
+	std::map<const char, const float> getTokens();
 };
+
+GCode::GCode()
+{
+	
+}
 
 GCode::GCode(std::string text)
 {
@@ -35,7 +44,7 @@ GCode::GCode(std::string text)
 	std::string word;
 
 	ss >> word;
-	
+
 	do
 	{
 		Key = word[0];
@@ -70,4 +79,19 @@ GCode::GCode(std::string text)
 std::string GCode::getText()
 {
 	return Text;
+}
+
+GCode::GCodeType GCode::getGCodeType()
+{
+	return Type;
+}
+
+int GCode::getTypeNumber()
+{
+	return TypeNumber;
+}
+
+std::map<const char, const float> GCode::getTokens()
+{
+	return Tokens;
 }
