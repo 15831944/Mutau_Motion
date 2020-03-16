@@ -4,49 +4,42 @@
 
 class Trajectory
 {
+	float X0 = 0;
+	float X1 = 0;
+
+	float V0 = 0;
+	float V1 = 0;
+
+	float Vmax = 0;
+	float Amax = 0;
+	float Jmax = 0;
+
+	float Vlim = 0;
+	float Alima = 0;
+	float Alimd = 0;
+
+	float Tj1 = 0;
+	float Ta = 0;
+	float Tv = 0;
+	float Td = 0;
+	float Tj2 = 0;
+	float T = 0;
+
+	float Ratio = 1;
+
+	bool VmaxReached = true;
+	bool AmaxReached = true;
+	bool AminReached = true;
+
 public:
-	Trajectory();
-	Trajectory(double x0, double x1, double v0, double v1, double v_max, double a_max, double j_max);
-	TrajectoryPoint CalculateByTime(double time);
-	TrajectoryPoint CalculateByProgress(double percent);
-	double ConvertTimetoProgress(double time);
-	double GetTotalTime();
-
-private:
-	double X0;
-	double X1;
-
-	double V0;
-	double V1;
-
-	double Vmax;
-	double Amax;
-	double Jmax;
-
-	double Vlim;
-	double Alima;
-	double Alimd;
-
-	double Tj1;
-	double Ta;
-	double Tv;
-	double Td;
-	double Tj2;
-	double T;
-
-	double Ratio = 1;
-
-	bool VmaxReached;
-	bool AmaxReached;
-	bool AminReached;
+	Trajectory(float, float, float, float, float, float, float);
+	TrajectoryPoint CalculateByTime(float);
+	TrajectoryPoint CalculateByProgress(float);
+	float ConvertTimetoProgress(float);
+	float GetTotalTime();
 };
 
-Trajectory::Trajectory()
-{
-	
-}
-
-Trajectory::Trajectory(double x0, double x1, double v0, double v1, double v_max, double a_max, double j_max)
+Trajectory::Trajectory(float x0, float x1, float v0, float v1, float v_max, float a_max, float j_max)
 {
 	X0 = x0;
 	X1 = x1;
@@ -122,7 +115,7 @@ Trajectory::Trajectory(double x0, double x1, double v0, double v1, double v_max,
 	VmaxReached = false;
 	Tv = 0;
 
-	double ratio_limit[2] = {0, 1};
+	float ratio_limit[2] = {0, 1};
 	auto first = true;
 
 	for (auto i = 0; i < 10; i++)
@@ -225,12 +218,12 @@ Trajectory::Trajectory(double x0, double x1, double v0, double v1, double v_max,
 	return;
 }
 
-TrajectoryPoint Trajectory::CalculateByTime(double time)
+TrajectoryPoint Trajectory::CalculateByTime(float time)
 {
-	double p;
-	double v;
-	double a;
-	double j;
+	float p;
+	float v;
+	float a;
+	float j;
 
 	const auto delta = X0 > X1;
 
@@ -314,10 +307,12 @@ TrajectoryPoint Trajectory::CalculateByTime(double time)
 		j = -j;
 	}
 
-	return {p, v, a, j, 0};
+	TrajectoryPoint tmp(p,v,a,j,0);
+
+	return tmp;
 }
 
-TrajectoryPoint Trajectory::CalculateByProgress(double percent)
+TrajectoryPoint Trajectory::CalculateByProgress(float percent)
 {
 	if (percent < 0)
 	{
@@ -333,11 +328,11 @@ TrajectoryPoint Trajectory::CalculateByProgress(double percent)
 	}
 }
 
-double Trajectory::ConvertTimetoProgress(double time)
+float Trajectory::ConvertTimetoProgress(float time)
 {
 	TrajectoryPoint _P = CalculateByTime(time);
 
-	switch (_P.getState())
+	switch (_P.State)
 	{
 	case -1:
 		return 0;
@@ -346,12 +341,12 @@ double Trajectory::ConvertTimetoProgress(double time)
 		return 1;
 		break;
 	default:
-		return (_P.getPosition() - X0) / (X1 - X0);
+		return (_P.Position - X0) / (X1 - X0);
 		break;
 	}
 }
 
-double Trajectory::GetTotalTime()
+float Trajectory::GetTotalTime()
 {
 	return T;
 }

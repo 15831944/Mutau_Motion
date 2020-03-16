@@ -3,35 +3,29 @@
 #include <map>
 #include <bits/stdc++.h>
 
+enum GCodeType
+{
+	G,
+	M,
+	S,
+	T
+};
+
 class GCode
 {
-	enum GCodeType
-	{
-		G,
-		S,
-		T,
-		M
-	};
 	std::string Text = "";
-	GCodeType Type;
 	int TypeNumber;
 	std::map<const char, const float> Tokens;
 
 public:
-	GCode();
 	GCode(std::string text);
 	std::string getText();
-	GCodeType getGCodeType();
 	int getTypeNumber();
 	std::map<const char, const float> getTokens();
+	GCodeType CommandType;
 };
 
-GCode::GCode()
-{
-	
-}
-
-GCode::GCode(std::string text)
+GCode::GCode(std::string text = "G1")
 {
 	transform(text.begin(), text.end(), text.begin(), ::toupper);
 	Text = text;
@@ -59,16 +53,16 @@ GCode::GCode(std::string text)
 			switch (Key)
 			{
 			case 'G':
-				Type = G;
+				CommandType = GCodeType::G;
 				break;
 			case 'M':
-				Type = M;
+				CommandType = GCodeType::G;
 				break;
 			case 'S':
-				Type = S;
+				CommandType = GCodeType::G;
 				break;
 			case 'T':
-				Type = T;
+				CommandType = GCodeType::G;
 				break;
 			}
 		}
@@ -79,11 +73,6 @@ GCode::GCode(std::string text)
 std::string GCode::getText()
 {
 	return Text;
-}
-
-GCode::GCodeType GCode::getGCodeType()
-{
-	return Type;
 }
 
 int GCode::getTypeNumber()

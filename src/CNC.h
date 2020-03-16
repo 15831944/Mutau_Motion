@@ -6,8 +6,17 @@
 #include <list>
 #include <string>
 
-enum CirclePlane {XY, ZX, YZ};
-enum LengthUnit { mm, inch };
+enum CirclePlane
+{
+	XY,
+	ZX,
+	YZ
+};
+enum LengthUnit
+{
+	mm,
+	inch
+};
 class CNC
 {
 public:
@@ -48,7 +57,6 @@ public:
 private:
 	std::list<Axis> CNCAxes;
 	int numberofaxes;
-
 };
 
 CNC::CNC()
@@ -103,31 +111,82 @@ void CNC::GoToTrajectoryPointList(std::list<TrajectoryPoint> Target)
 	std::list<TrajectoryPoint>::iterator it = Target.begin();
 	std::list<Axis>::iterator Axit = CNCAxes.begin();
 	X = it->getPosition() * Axit->GearRatio;
-	it++; Axit++;
+	it++;
+	Axit++;
 	Y = it->getPosition() * Axit->GearRatio;
-	it++; 
+	it++;
 	Z = it->getPosition() * Axit->GearRatio;
 
 	if (numberofaxes == 4)
 	{
-		it++; Axit++;
+		it++;
+		Axit++;
 		Roll = it->getPosition() * Axit->GearRatio;
 	}
 	else if (numberofaxes == 5)
 	{
-		it++; Axit++;
+		it++;
+		Axit++;
 		Roll = it->getPosition() * Axit->GearRatio;
-		it++; Axit++;
+		it++;
+		Axit++;
 		Pitch = it->getPosition() * Axit->GearRatio;
 	}
 	else if (numberofaxes == 6)
 	{
-		it++; Axit++;
+		it++;
+		Axit++;
 		Roll = it->getPosition() * Axit->GearRatio;
-		it++; Axit++;
+		it++;
+		Axit++;
 		Pitch = it->getPosition() * Axit->GearRatio;
-		it++; Axit++;
+		it++;
+		Axit++;
 		Yaw = it->getPosition() * Axit->GearRatio;
 	}
 }
 
+void CNC::Execute(GCodeProgram myGCode)
+{
+	// for (int i = 0; i < myGCode.getNumberOfLines(); i++)
+	// {
+	// 	float time = 0;
+	// 	GCode myLine = myGCode.getLine(i);
+
+	// 	// MultiAxisTrajectory Mex = myLine.PreProcess();
+
+	// 	switch (myLine.getGCodeType())
+	// 	{
+	// 	case GCodeType::G:
+
+	// 		switch (myLine.getTypeNumber())
+	// 		{
+	// 		case 0:
+	// 			// CNC::Run();
+	// 			break;
+	// 		case 1:
+	// 			break;
+	// 		case 2:
+	// 			break;
+	// 		case 3:
+	// 			break;
+	// 		case 4:
+	// 			break;
+
+	// 		default:
+	// 			break;
+	// 		}
+	// 		break;
+
+	// 	case GCodeType::M:
+	// 		break;
+
+	// 	case GCodeType::S:
+	// 		break;
+	// 	case GCodeType::T:
+
+	// 	default:
+	// 		break;
+	// 	}
+	// }
+}

@@ -1,29 +1,30 @@
-#pragma once
 #include "Trajectory.h"
-#include "CNC.h"
 
 class MultiAxisTrajectory
 {
-    Trajectory LongestTrajectory;
-    std::list<Trajectory> TrajectoryList;
-    double T;
+	Trajectory LongestTrajectory;
+	std::list<Trajectory> TrajectoryList;
+	double T;
 
 public:
-    MultiAxisTrajectory();
-    MultiAxisTrajectory(CNC machine, Trajectory x, Trajectory y, Trajectory z);
-    std::list<TrajectoryPoint> CalculateByTime(double time);
-    std::list<TrajectoryPoint> CalculateByProgress(double percent);
-    double GetTotalTime();
-    void Run();
-    CNC Machine;
+	// MultiAxisTrajectory(CNC machine);
+	MultiAxisTrajectory(Trajectory, Trajectory, Trajectory);
+	std::list<TrajectoryPoint> CalculateByTime(double time);
+	std::list<TrajectoryPoint> CalculateByProgress(double percent);
+	double GetTotalTime();
+	void Run();
 };
 
-MultiAxisTrajectory::MultiAxisTrajectory()
-{
-	
-}
+// MultiAxisTrajectory(CNC machine)
+// {
+// 	Machine = machine;
+// 	Trajectory x(0, 0, 0, 0, 0, 0, 0);
+// 	TrajectoryList.push_back(x);
+// 	LongestTrajectory = x;
+// 	T = x.GetTotalTime();
+// }
 
-MultiAxisTrajectory::MultiAxisTrajectory(CNC machine, Trajectory x, Trajectory y, Trajectory z)
+MultiAxisTrajectory(CNC machine, Trajectory x, Trajectory y, Trajectory z)
 {
 	TrajectoryList.push_back(x);
 	TrajectoryList.push_back(y);
@@ -93,4 +94,3 @@ void MultiAxisTrajectory::Run()
 
 	Machine.Time = Machine.Time + GetTotalTime();
 }
-

@@ -1,19 +1,16 @@
 #pragma once
-
 class Axis
 {
 public:
-	Axis(double lowerlimit, double upperlimit, double home, double gearratio);
-	double LowerLimit;
-	double UpperLimit;
-	double Home;
-	double GearRatio;
-
-	int ConvertPosition2Motor(double position);
-private:
+	Axis(float lowerlimit, float upperlimit, float home, float gearratio);
+	float LowerLimit;
+	float UpperLimit;
+	float Home;
+	float GearRatio;
+	int ConvertPosition2Motor(float position);
 };
 
-Axis::Axis(double lowerlimit, double upperlimit, double home, double gearratio)
+Axis::Axis(float lowerlimit, float upperlimit, float home, float gearratio)
 {
 	if (lowerlimit >= upperlimit)
 	{
@@ -38,7 +35,7 @@ Axis::Axis(double lowerlimit, double upperlimit, double home, double gearratio)
 	GearRatio = gearratio;
 }
 
-int Axis::ConvertPosition2Motor(double position)
+int Axis::ConvertPosition2Motor(float position)
 {
 	return int(GearRatio * position);
 }

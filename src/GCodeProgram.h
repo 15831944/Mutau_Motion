@@ -5,7 +5,6 @@
 #include <string>
 #include <list>
 #include "GCode.h"
-#include "CNC.h"
 
 class GCodeProgram
 {
@@ -13,9 +12,9 @@ class GCodeProgram
     GCode GCodeLines[10000];
 
 public:
-    GCodeProgram(std::string inFile);
+    GCodeProgram(std::string);
     int getNumberOfLines();
-    std::string getLine(int LineNumber);
+    GCode getLine(int);
 };
 
 GCodeProgram::GCodeProgram(std::string inFile)
@@ -34,7 +33,7 @@ int GCodeProgram::getNumberOfLines()
     return NumberOfLines;
 }
 
-std::string GCodeProgram::getLine(int LineNumber)
+GCode GCodeProgram::getLine(int LineNumber)
 {
-    return GCodeLines[LineNumber].getText();
+    return GCodeLines[LineNumber];
 }
